@@ -23,15 +23,15 @@ The section is divided into two parts, corresponding to two levels of experience
 
 
 ## System Requirements
-**Node.js** - Node.js is the server-side JavaScript platform. If you do not have Node.js installed, you can find the installer for your platform at Node.js. For z/OS see IBM SDK for Node.js on z/OS. Please note, you can get a free trial version of Node.js on z/OS for testing at free 90-day trial (SMP/E format) with installations instructions here or at Node.js SDK on z/OS trial (pax format) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version.
+**Node.js** - Node.js is the server-side JavaScript platform. If you do not have Node.js installed, you can find the installer for your platform at [Node.js](https://nodejs.org/en/). For z/OS see [IBM SDK for Node.js on z/OS](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos). Please note, you can get a free trial version of Node.js on z/OS for testing at [free 90-day trial (SMP/E format)](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos/purchase) with installations instructions [here](https://www.ibm.com/support/knowledgecenter/SSTRRS_6.0.0/com.ibm.nodejs.zos.v6.doc/install.htm) or at [Node.js SDK on z/OS trial (pax format)](https://developer.ibm.com/node/sdk/ztp/) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version. 
+
 Verify installation with:
 ```bash
 node --version
 ```
+**Git** - Git is a distributed version control system. You can get [git for z/OS from Rocket Software.](http://www.rocketsoftware.com/zos-open-source/tools).
 
-**Git** - Git is a distributed version control system. You can get git for z/OS from Rocket Software..
-
-**cURL** - cURL is command line tool for transfer data in different protocols. You can get cURL for z/OS from Rocket Software..
+**cURL** - cURL is command line tool for transfer data in different protocols. You can get [cURL for z/OS from Rocket Software.](http://www.rocketsoftware.com/zos-open-source/tools).
 
 **VSAM** - Virtual Storage Access Method (VSAM) is a file storage access method used in MVS, ZOS and OS/390 operating systems. Please make sure you have privileges to create and access VSAM datasets.
 
@@ -120,16 +120,14 @@ curl -X DELETE "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
 
 ## Part B: Steps to Create the VSAM application
 ### Create an Express Project
-First we need to create a node.js empty project. 
+First we create a node.js empty project. 
 ```bash
 mkdir vsam-demo
 cd vsam-demo
 npm init
 ```
 
-The ‘npm init’ will create and populate the package.json with the definition for the project. Press Enter to confirm the questions. 
-
-Next we create dependencies using npm. 
+The ‘npm init’ will create and populate the package.json with the definition for the project. Press Enter to confirm the questions. Next we create dependencies using npm. 
 ```bash
 npm install express vsam.js chai async --save
 ```
@@ -181,14 +179,14 @@ module.exports = function(app) {
     // Read a single VSAM record
     app.get('/vsam/record/:path', vsam.readRecord);
 
-    // Update a VSAM record
+    // Read all VSAM records
+    app.get('/vsam/records/:path', vsam.readAllRecords);
+
+    // Update a VSAM record
     app.put('/vsam/record/:path&:key&:name&:gender', vsam.updateRecord);
 
     // Delete a VSAM record
     app.delete('/vsam/record/:path&:key', vsam.deleteRecord);
-
-    // Read all VSAM records
-    app.get('/vsam/records/:path', vsam.readAllRecords);
 
 }
 ```
