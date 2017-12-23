@@ -4,7 +4,7 @@
 In this developer journey we demonstrate how to access and interact with VSAM files from a Node.js application. We will use Express framework to create the application and build the logic to manipulate the VSAM file.
 
 
-# Flow/architecture
+## Flow/architecture
 The backend Node.js application communicates with VSAM data sets on the z/OS system and provides APIs to query and manage the VSAM file and records.
 
 1.	Create a Node.js web application with Express framework.
@@ -16,11 +16,6 @@ The backend Node.js application communicates with VSAM data sets on the z/OS sys
 - [Node.js](https://nodejs.org/en/) - An asynchronous event driven JavaScript runtime, designed to build scalable applications
 - [Express](https://expressjs.com/) - A popular Node.js web application framework 
 - [npm](https://www.npmjs.com/) - package manager for the JavaScript programming language included with Node.js installation
-
-## Application walkthrough 
-In this section, we provide step-by-step instructions to experience with the Node.js application that interacts with VSAM datasets. In our example, we use Key Sequence Data Set (KSDS) VSAM data set. The application allows you to create and delete VSAM files, and then manipulate VSAM records via CRUD functionality to create, read, delete and update records.
-The section is divided into two parts, corresponding to two levels of experience. In the first part, you can download the code, deploy it on z/OS, configure it, run it and test it. In the second part, you can follow step-by-step tutorial for building your own Node.js application.
-
 
 ## System Requirements
 **Node.js** - Node.js is the server-side JavaScript platform. If you do not have Node.js installed, you can find the installer for your platform at [Node.js](https://nodejs.org/en/). For z/OS see [IBM SDK for Node.js on z/OS](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos). Please note, you can get a free trial version of Node.js on z/OS for testing at [free 90-day trial (SMP/E format)](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos/purchase) with installations instructions [here](https://www.ibm.com/support/knowledgecenter/SSTRRS_6.0.0/com.ibm.nodejs.zos.v6.doc/install.htm) or at [Node.js SDK on z/OS trial (pax format)](https://developer.ibm.com/node/sdk/ztp/) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version. 
@@ -35,23 +30,20 @@ node --version
 
 **VSAM** - Virtual Storage Access Method (VSAM) is a file storage access method used in MVS, ZOS and OS/390 operating systems. Please make sure you have privileges to create and access VSAM datasets.
 
-## Part A: Steps to Deploy VSAM application and test
-This part guides you through the steps to deploy the Node.js vsam application. By the end of the session you will have a running application that provides basic capabilities to access and manipulate VSAM datasets.
+## Application walkthrough 
+In this section, we provide step-by-step instructions to experience with the Node.js application that interacts with VSAM datasets. In our example, we use Key Sequence Data Set (KSDS) VSAM data set. The application allows you to create and delete VSAM files, and then manipulate VSAM records via CRUD functionality to create, read, delete and update records.
+The section is divided into two parts, corresponding to two levels of experience:
+Part A guides you through the steps to deploy the Node.js vsam application on z/OS, run it and test it. By the end of the part  you will have a running application that provides basic capabilities to access and manipulate VSAM datasets.
+Part B guides you through the steps to create your own Node.js application that interacts with VSAM datasets. By the end of this part you will have the basic understanding of creating a web browser application base on Express framework and the knowledge to connect and interact with VSAM datasets from Node.js application using the vsam.js npm.   
 
+
+
+## Part A: Steps to Deploy VSAM application and test
+This part guides you through the following steps to deploy, run and test the Node.js vsam application on z/OS:
 1.	[Clone the repo](#clone-the-repo)
 2.	[Run the Application](#run-the-application)
 3.	[Test the Application](#test-the-application)
 
-## Part B: Steps to Create the VSAM application
-This scenario guides you through the steps to create the 4 APIs for the TorCC credit card to use and the backend application. By the end of the session, you will know how to create and deploy the APIs.
-1.	[Create an Express Project](#create-an-express-project)
-2.	[Set up a Web browser](#set-up-a-web-browser)
-3.	[Define Routes](#define-routes)
-4.	[Write the Controller Functions](#write-the-controller-functions)
-5.	[Add Application Logic](#add-application-logic)
-6.	[Test your applicaiton](#test-your-application)
-
-## Part A: Steps to Deploy VSAM application and test
 ### Clone the repo
 Clone the repo locally. In a terminal, run:
 ```bash
@@ -119,6 +111,14 @@ curl -X DELETE "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
 
 
 ## Part B: Steps to Create the VSAM application
+This scenario guides you through the following steps to create your own vsam application: 
+1.	[Create an Express Project](#create-an-express-project)
+2.	[Set up a Web browser](#set-up-a-web-browser)
+3.	[Define Routes](#define-routes)
+4.	[Write the Controller Functions](#write-the-controller-functions)
+5.	[Add Application Logic](#add-application-logic)
+6.	[Test your applicaiton](#test-your-application)
+
 ### Create an Express Project
 First we create a node.js empty project. 
 ```bash
