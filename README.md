@@ -23,25 +23,17 @@ The section is divided into two parts, corresponding to two levels of experience
 
 
 ## System Requirements
-**Node.js**
-
-Node.js is the server-side JavaScript platform. If you do not have Node.js installed, you can find the installer for your platform at Node.js. For z/OS see IBM SDK for Node.js on z/OS. Please note, you can get a free trial version of Node.js on z/OS for testing at free 90-day trial (SMP/E format) with installations instructions here or at Node.js SDK on z/OS trial (pax format) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version.
+**Node.js** - Node.js is the server-side JavaScript platform. If you do not have Node.js installed, you can find the installer for your platform at Node.js. For z/OS see IBM SDK for Node.js on z/OS. Please note, you can get a free trial version of Node.js on z/OS for testing at free 90-day trial (SMP/E format) with installations instructions here or at Node.js SDK on z/OS trial (pax format) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version.
 Verify installation with:
 ```bash
 node --version
 ```
 
-**Git**
+**Git** - Git is a distributed version control system. You can get git for z/OS from Rocket Software..
 
-Git is a distributed version control system. You can get git for z/OS from Rocket Software..
+**cURL** - cURL is command line tool for transfer data in different protocols. You can get cURL for z/OS from Rocket Software..
 
-**cURL**
-
-cURL is command line tool for transfer data in different protocols. You can get cURL for z/OS from Rocket Software..
-
-**VSAM**
-
-Virtual Storage Access Method (VSAM) is a file storage access method used in MVS, ZOS and OS/390 operating systems. Please make sure you have privileges to create and access VSAM datasets.
+**VSAM** - Virtual Storage Access Method (VSAM) is a file storage access method used in MVS, ZOS and OS/390 operating systems. Please make sure you have privileges to create and access VSAM datasets.
 
 ## Part A: Steps to Deploy VSAM application and test
 This part guides you through the steps to deploy the Node.js vsam application. By the end of the session you will have a running application that provides basic capabilities to access and manipulate VSAM datasets.
