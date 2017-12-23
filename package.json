@@ -1,0 +1,17 @@
+{
+  "name": "vsamdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "vsam.js": "^1.0.2"
+  }
+}
