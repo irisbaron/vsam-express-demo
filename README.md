@@ -39,12 +39,9 @@ Part B guides you through the steps to create your own Node.js application that 
 
 
 ## Part A: Steps to Deploy VSAM application and test
-This part guides you through the following steps to deploy, run and test the Node.js vsam application on z/OS:
-1.	[Clone the repo](#clone-the-repo)
-2.	[Run the Application](#run-the-application)
-3.	[Test the Application](#test-the-application)
+This part guides you through the steps to clone the git repository and deploy the Node.js vsam application on z/OS, run the application and test it.
 
-### Clone the repo
+### Clone the Repository
 Clone the repo locally. In a terminal, run:
 ```bash
 git clone https://github.com/irisbaron/vsam-express-demo
@@ -120,7 +117,7 @@ This scenario guides you through the following steps to create your own vsam app
 6.	[Test your applicaiton](#test-your-application)
 
 ### Create an Express Project
-First we create a node.js empty project. 
+First we create a node.js empty project.
 ```bash
 mkdir vsam-demo
 cd vsam-demo
@@ -128,6 +125,8 @@ npm init
 ```
 
 The ‘npm init’ will create and populate the package.json with the definition for the project. Press Enter to confirm the questions. Next we create dependencies using npm. 
+Next we install the dependencies for our project, including Express and VSAM.js. 
+
 ```bash
 npm install express vsam.js chai async --save
 ```
@@ -253,7 +252,7 @@ In our example we used the `node_modules/vsam.js/test/test.json` file definition
 We are now ready to add the logic.
 
 ### Add Application Logic
-[Controller.md](https://github.com/irisbaron/vsam-express-demo/blob/master/controller.md) contains the implementation snippets of each of the specified controller functions.
+[controller.md](https://github.com/irisbaron/vsam-express-demo/blob/master/controller.md) contains the implementation snippets of each of the specified controller functions.
 You can manually copy them or alternatively clone or download the github code, and copy over the controller.js file.
 
 ### Test your Application
