@@ -62,7 +62,7 @@ On z/OS run the following:
 ```bash
 git clone git://github.com/irisbaron/vsam-express-demo
 ```
-Alternatively, download the developer journey code as a zip file from here. On z/OS, use 'unzip -a' to unzip.
+Alternatively, download the developer journey code as a zip file from [here](https://github.com/irisbaron/vsam-express-demo/archive/master.zip). On z/OS, use 'unzip -a' to unzip.
 
 ### Run the Application
 In the developer journey code directory, install the node module dependencies with npm, and run the application.
