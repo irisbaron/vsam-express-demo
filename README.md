@@ -263,8 +263,12 @@ In our example we used the `node_modules/vsam.js/test/test.json` file definition
 We are now ready to add the logic.
 
 ### Add Application Logic
-Controller.md contains the implementation snippets of each of the specified controller functions.
+[Controller.md](https://github.com/irisbaron/vsam-express-demo/blob/master/controller.md) contains the implementation snippets of each of the specified controller functions.
 You can manually copy them or alternatively clone or download the github code, and copy over the controller.js file.
 
 ### Test your Application
-Follow the steps in section [Test the Application](#test-the-application).
+Run the application 
+```bash
+node server.js
+```
+And follow the steps in section [Test the Application](#test-the-application).
