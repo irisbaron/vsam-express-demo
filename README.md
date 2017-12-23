@@ -8,12 +8,12 @@ In this developer journey we demonstrate how to access and interact with VSAM fi
 The backend Node.js application communicates with VSAM data sets on the z/OS system and provides APIs to query and manage the VSAM file and records.
 
 1.	Create a Node.js web application with Express framework.
-2.	Build the logic to interact with VSAM datasets and records on z/OS system 
-3.	Expose the rewards program APIs. 
-4.	Explore, test and consume the APIs created.
+2.	Create routes for the web browser 
+3.  Create controller function and build the logic to interact with VSAM datasets and records on z/OS system 
+4.	Test the APIs created.
 
 ## Featured technologies
-- [js](https://nodejs.org/en/) - An asynchronous event driven JavaScript runtime, designed to build scalable applications
+- [Node.js](https://nodejs.org/en/) - An asynchronous event driven JavaScript runtime, designed to build scalable applications
 - [Express](https://expressjs.com/) - A popular Node.js web application framework 
 - [npm](https://www.npmjs.com/) - package manager for the JavaScript programming language included with Node.js installation
 
@@ -53,12 +53,11 @@ This part guides you through the steps to deploy the Node.js vsam application. B
 ## Part B: Steps to Create the VSAM application
 This scenario guides you through the steps to create the 4 APIs for the TorCC credit card to use and the backend application. By the end of the session, you will know how to create and deploy the APIs.
 1.	[Create an Express Project](#create-an-express-project)
-2.	[Create Dependencies](#create-dependencies)
-3.	[Set up a Web browser](#set-up-a-web-browser)
-4.	[Define Routes](#define-routes)
-5.	[Write the Controller Functions](#write-the-controller-functions)
-6.	[Add Application Logic](#add-application-logic)
-7.	[Test your applicaiton](#test-your-application)
+2.	[Set up a Web browser](#set-up-a-web-browser)
+3.	[Define Routes](#define-routes)
+4.	[Write the Controller Functions](#write-the-controller-functions)
+5.	[Add Application Logic](#add-application-logic)
+6.	[Test your applicaiton](#test-your-application)
 
 ## Part A: Steps to Deploy VSAM application and test
 ### Clone the repo
@@ -138,8 +137,7 @@ npm init
 
 The ‘npm init’ will create and populate the package.json with the definition for the project. Press Enter to confirm the questions. 
 
-### Create Dependencies
-Follow the following npm installation to generate the necessary ?? 
+Next we create dependencies using npm. 
 ```bash
 npm install express vsam.js chai async --save
 ```
@@ -260,7 +258,6 @@ exports.deleteRecord = function(req, res) {
     // delete a record from a vsam file
 };
 ```
-
 
 In our example we used the `node_modules/vsam.js/test/test.json` file definition, to specify the record object configuration. 
 We are now ready to add the logic.
