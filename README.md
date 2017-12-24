@@ -1,11 +1,11 @@
 # Node.js application to interact with VSAM datasets on z/OS
 
 ## Overview
-In this developer journey we demonstrate how to access and interact with VSAM files from a Node.js application. We will use Express framework to create the application and build the logic to manipulate the VSAM file.
+In this developer journey we demonstrate how to access and interact with VSAM files from a Node.js application on z/OS. We will use Express framework to create the web browser application and build the logic to manipulate VSAM files and records.
 
 
 ## Flow/architecture
-The backend Node.js application communicates with VSAM data sets on the z/OS system and provides APIs to query and manage the VSAM file and records.
+The backend Node.js application communicates with VSAM datasets on the z/OS system and provides APIs to query and manage the VSAM file and records.
 
 1.	Create a Node.js web application with Express framework.
 2.	Create routes for the web browser 
@@ -18,7 +18,7 @@ The backend Node.js application communicates with VSAM data sets on the z/OS sys
 - [npm](https://www.npmjs.com/) - package manager for the JavaScript programming language included with Node.js installation
 
 ## System Requirements
-**Node.js** - Node.js is the server-side JavaScript platform. If you do not have Node.js installed, you can find the installer for your platform at [Node.js](https://nodejs.org/en/). For z/OS see [IBM SDK for Node.js on z/OS](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos). Please note, you can get a free trial version of Node.js on z/OS for testing at [free 90-day trial (SMP/E format)](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos/purchase) with installations instructions [here](https://www.ibm.com/support/knowledgecenter/SSTRRS_6.0.0/com.ibm.nodejs.zos.v6.doc/install.htm) or at [Node.js SDK on z/OS trial (pax format)](https://developer.ibm.com/node/sdk/ztp/) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version. 
+**Node.js** - Node.js is the server-side JavaScript platform. To install Node.js on z/OS see [IBM SDK for Node.js on z/OS](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos). Please note, you can get a free trial version of Node.js on z/OS for testing at [free 90-day trial (SMP/E format)](https://www.ibm.com/us-en/marketplace/sdk-nodejs-compiler-zos/purchase) with installations instructions [here](https://www.ibm.com/support/knowledgecenter/SSTRRS_6.0.0/com.ibm.nodejs.zos.v6.doc/install.htm) or at [Node.js SDK on z/OS trial (pax format)](https://developer.ibm.com/node/sdk/ztp/) (downloads and instructions). Please follow the installation instructions provided, in particular for the pax format trial version. Make sure you install the C/C++ compiler, as described in the documentation, as it is needed for this exercise.
 
 Verify installation with:
 ```bash
@@ -26,37 +26,30 @@ node --version
 ```
 **Git** - Git is a distributed version control system. You can get [git for z/OS from Rocket Software.](http://www.rocketsoftware.com/zos-open-source/tools).
 
-**cURL** - cURL is command line tool for transfer data in different protocols. You can get [cURL for z/OS from Rocket Software.](http://www.rocketsoftware.com/zos-open-source/tools).
+**cURL** - cURL is command line tool for transfer data in different protocols. To run it on z/OS, you can get [cURL for z/OS from Rocket Software.](http://www.rocketsoftware.com/zos-open-source/tools).
 
 **VSAM** - Virtual Storage Access Method (VSAM) is a file storage access method used in MVS, ZOS and OS/390 operating systems. Please make sure you have privileges to create and access VSAM datasets.
 
-## Application walkthrough 
-In this section, we provide step-by-step instructions to experience with the Node.js application that interacts with VSAM datasets. In our example, we use Key Sequence Data Set (KSDS) VSAM data set. The application allows you to create and delete VSAM files, and then manipulate VSAM records via CRUD functionality to create, read, delete and update records.
-The section is divided into two parts, corresponding to two levels of experience:
-Part A guides you through the steps to deploy the Node.js vsam application on z/OS, run it and test it. By the end of the part  you will have a running application that provides basic capabilities to access and manipulate VSAM datasets.
-Part B guides you through the steps to create your own Node.js application that interacts with VSAM datasets. By the end of this part you will have the basic understanding of creating a web browser application base on Express framework and the knowledge to connect and interact with VSAM datasets from Node.js application using the vsam.js npm.   
-
+## Application Walkthrough 
+In this section, we provide step-by-step instructions to create and run a Node.js application that interacts with VSAM datasets on z/OS. In our example, we use Key Sequence Data Set (KSDS) VSAM data set. The application allows you to create and delete VSAM files, and then manipulate VSAM records via CRUD functionality to create, read, delete and update records.
+The section is divided into two parts, corresponding to two levels of experience: Part A guides you through the steps to deploy the Node.js vsam application on z/OS, run it and test it. By the end of the part you will have a running application that provides basic capabilities to fully interact with VSAM datasets.
+Part B guides you through the steps to create your own Node.js application that communicates with VSAM datasets. By the end of this part you will have the basic understanding of Express framework and the knowledge to access and manipulate VSAM datasets from Node.js application using the vsam.js npm.   
 
 
 ## Part A: Steps to Deploy VSAM application and test
 This part guides you through the steps to clone the git repository and deploy the Node.js vsam application on z/OS, run the application and test it.
 
 ### Clone the Repository
-Clone the repo locally. In a terminal, run:
-```bash
-git clone https://github.com/irisbaron/vsam-express-demo
-```
-
-On z/OS run the following:
+To clone the repository on z/OS run the following: 
 ```bash
 git clone git://github.com/irisbaron/vsam-express-demo
 ```
 Alternatively, download the developer journey code as a zip file from [here](https://github.com/irisbaron/vsam-express-demo/archive/master.zip). On z/OS, use 'unzip -a' to unzip.
 
 ### Run the Application
-In the developer journey code directory, install the node module dependencies with npm, and run the application.
+In the developer journey code directory, follow the code below to install the Node.js module dependencies using npm, and run the application.
 ```bash
-cd vsam-demo
+cd vsam-express-demo    
 npm install
 node server.js
 ```
@@ -69,7 +62,8 @@ Server is listening on port 3000
 
 ### Test the Application
 Use the cURL command from the command-line in a separate shell/terminal, ether locally or remotely. 
-Please replace the dataset USER.TEST.VSAM.KSDS2 with a customer one that matches your environment.
+Make sure to replace the dataset name, USER.TEST.VSAM.KSDS2, with a customized one that matches your environment.
+In case you run remotely, change specify the hostname instead of localhost.
 
 Create VSAM file:
 ```bash
@@ -108,7 +102,7 @@ curl -X DELETE "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
 
 
 ## Part B: Steps to Create the VSAM application
-This scenario guides you through the following steps to create your own vsam application: 
+This part guides you through the following steps to create your own vsam application on z/OS: 
 1.	[Create an Express Project](#create-an-express-project)
 2.	[Set up a Web browser](#set-up-a-web-browser)
 3.	[Define Routes](#define-routes)
@@ -117,13 +111,12 @@ This scenario guides you through the following steps to create your own vsam app
 6.	[Test your applicaiton](#test-your-application)
 
 ### Create an Express Project
-First we create a node.js empty project.
+We start by creating a Node.js empty project:
 ```bash
-mkdir vsam-demo
-cd vsam-demo
+mkdir vsam-express-demo
+cd vsam-express-demo
 npm init
 ```
-
 The ‘npm init’ will create and populate the package.json with the definition for the project. Press Enter to confirm the questions. Next we create dependencies using npm. 
 Next we install the dependencies for our project, including Express and VSAM.js. 
 
@@ -133,7 +126,7 @@ npm install express vsam.js chai async --save
 As a result, node_modules directory will be populated with the required dependencies, e.g. the vsam.js directory is created and populated.
 
 ### Set up a Web Browser
-In the root folder, create a new file, server.js, and populate it with the information below. 
+In the root folder, the vsam-express-demo, create a new file, server.js, and populate it with the information below. 
 This will be the main entry point of our application.
 
 ```javaScript
@@ -154,11 +147,10 @@ app.listen(3000, function(){
 });
 ```
 
-It basically starts an express application, which is a web server framework. 
-We defined a GET route which return a welcome message, and set up the server to listen to port 3000. 
+The code, starts an express application, which is a web server framework. We then defined a GET route which returns a welcome message, and lastly, set up the server to listen to port 3000. 
 
 ### Define Routes
-In this step, we create the routes for the VSAM application, that is the URL handling code.
+We now create the routes for the VSAM application, that is the URL handling code.
 In the root folder, create a new file called routes.js with the following contents:
 
 ```javaScript
@@ -190,11 +182,10 @@ module.exports = function(app) {
 }
 ```
 
-This declares the handler functions for all the resource endpoints we need for our application. For each one it specifies the HTTP form (GET, POST, PUT and DELETE) and the method handler. 
-Note that we have added a require statement for controller.js file, which we will define the next section. 
+This declares the handler functions for all the resource endpoints we need for our application. For each route, it specifies the HTTP form (GET, POST, PUT and DELETE) and the method handler. 
+The code contains a require statement for controller.js file, which we define the next section. 
 
-
-To use the routes in the application we need to include the routes.js file in server.js. 
+In order to use the routes in the application, we need to include the routes.js file in server.js. 
 For this open the server.js file and add the following require statement before app.listen() line.
 
 ```javaScript
@@ -252,8 +243,7 @@ In our example we used the `node_modules/vsam.js/test/test.json` file definition
 We are now ready to add the logic.
 
 ### Add Application Logic
-[controller.md](https://github.com/irisbaron/vsam-express-demo/blob/master/controller.md) contains the implementation snippets of each of the specified controller functions.
-You can manually copy them or alternatively clone or download the github code, and copy over the controller.js file.
+[controller.md](https://github.com/irisbaron/vsam-express-demo/blob/master/controller.md) contains the implementation snippets of each of the specified controller functions. You can manually copy them one by one, or alternatively clone or download the github code, and copy over the controller.js file.
 
 ### Test your Application
 Run the application 
