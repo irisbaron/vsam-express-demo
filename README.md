@@ -1,14 +1,14 @@
 # Node.js application to interact with VSAM datasets on z/OS
 
 ## Overview
-In this developer journey we demonstrate how to access and interact with VSAM files from a Node.js application on z/OS. We will use Express framework to create the web browser application and build the logic to manipulate VSAM files and records.
+In this developer journey we demonstrate how to access and interact with VSAM files from a Node.js application on z/OS. We will use Express framework to create the web server application and build the logic to manipulate VSAM files and records.
 
 
 ## Flow/architecture
 The backend Node.js application communicates with VSAM datasets on the z/OS system and provides APIs to query and manage the VSAM file and records.
 
 1.	Create a Node.js web application with Express framework.
-2.	Create routes for the web browser 
+2.	Create routes for the web server 
 3.  Create controller function and build the logic to interact with VSAM datasets and records on z/OS system 
 4.	Test the APIs created.
 
@@ -104,7 +104,7 @@ curl -X DELETE "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
 ## Part B: Steps to Create the VSAM application
 This part guides you through the following steps to create your own vsam application on z/OS: 
 1.	[Create an Express Project](#create-an-express-project)
-2.	[Set up a Web browser](#set-up-a-web-browser)
+2.	[Set up a Web Server](#set-up-a-web-server)
 3.	[Define Routes](#define-routes)
 4.	[Write the Controller Functions](#write-the-controller-functions)
 5.	[Add Application Logic](#add-application-logic)
@@ -125,7 +125,7 @@ npm install express vsam.js chai async --save
 ```
 As a result, node_modules directory will be populated with the required dependencies, e.g. the vsam.js directory is created and populated.
 
-### Set up a Web Browser
+### Set up a Web Server
 In the root folder, the vsam-express-demo, create a new file, server.js, and populate it with the information below. 
 This will be the main entry point of our application.
 
