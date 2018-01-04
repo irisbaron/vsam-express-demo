@@ -161,7 +161,7 @@ var _gender = req.params.gender;
 	      });
             });
           });
-res.json({"message": "Update record with key á + _key + á in VSAM file " + _p});
+res.json({"message": "Update record with key " + _key + " in VSAM file " + _p});
 };
 
 exports.deleteRecord = function(req, res) {
