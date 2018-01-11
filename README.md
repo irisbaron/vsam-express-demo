@@ -64,20 +64,21 @@ Server is listening on port 3000
 Use the cURL command from the command-line in a separate shell/terminal, ether locally or remotely. 
 Make sure to replace the dataset name, USER.TEST.VSAM.KSDS2, with a customized one that matches your environment.
 In case you run remotely, change specify the hostname instead of localhost.
+The curl command will print out the http response which is just a message string describing the action performed.
 
 Create VSAM file:
 ```bash
-curl -X POST “http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2”
+curl -X POST "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
 ```
 
 Create a VSAM record
 ```bash
-curl -X POST "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2&0123&James&MALE”
+curl -X POST "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2&0123&James&MALE"
 ```
 
 Read a VSAM record
 ```bash
-curl -X GET "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2”
+curl -X GET "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2"
 ```
 
 Read all VSAM records
@@ -156,28 +157,28 @@ In the root folder, create a new file called routes.js with the following conten
 ```javaScript
 module.exports = function(app) {
 
-    var notes = require('controller.js');
+    var vsam = require('./controller.js');
 
-    // Create a new VSAM file
-    app.post('/vsam/:path', vsam.createFile);
+    // Create a new VSAM file
+    app.post('/vsam/:path', vsam.createFile);
 
-    // Delete a VSAM file
-    app.delete('/vsam/:path', vsam.deleteFile);
+    // Delete a VSAM file
+    app.delete('/vsam/:path', vsam.deleteFile);
 
-    // Create a new VSAM record
-    app.post('/vsam/record/:path&:key&:name&:gender', vsam.createRecord);
+    // Create a new VSAM record
+    app.post('/vsam/record/:path&:key&:name&:gender', vsam.createRecord);
 
-    // Read a single VSAM record
-    app.get('/vsam/record/:path', vsam.readRecord);
+    // Read a single VSAM record
+    app.get('/vsam/record/:path', vsam.readRecord);
 
     // Read all VSAM records
-    app.get('/vsam/records/:path', vsam.readAllRecords);
+    app.get('/vsam/records/:path', vsam.readAllRecords);
 
     // Update a VSAM record
-    app.put('/vsam/record/:path&:key&:name&:gender', vsam.updateRecord);
+    app.put('/vsam/record/:path&:key&:name&:gender', vsam.updateRecord);
 
-    // Delete a VSAM record
-    app.delete('/vsam/record/:path&:key', vsam.deleteRecord);
+    // Delete a VSAM record
+    app.delete('/vsam/record/:path&:key', vsam.deleteRecord);
 
 }
 ```
@@ -192,7 +193,7 @@ For this open the server.js file and add the following require statement before 
 // ........
 
 // Require VSAM routes
-require('routes.js')(app);  
+require('./routes.js')(app);  
 
 // ........
 ```
@@ -203,7 +204,7 @@ The controller will contain methods for handling all the CRUD operations for our
 In the root directory, create a new file called controller.js with the following contents:
 
 ```javaScript
-const vsam = require("node_modules/vsam.js/build/Release/vsam.js.node");
+const vsam = require("./node_modules/vsam.js/build/Release/vsam.js.node");
 const async = require('async');
 const fs = require('fs');
 const expect = require('chai').expect;
@@ -215,7 +216,7 @@ exports.createFile = function(req, res) {
 };
 
 exports.deleteFile = function(req, res) {
-    // Delete a vsam file
+    // Delete a vsam file
 };
 
 exports.createRecord = function(req, res) {
@@ -227,7 +228,7 @@ exports.readRecord = function(req, res) {
 };
 
 exports.readAllRecords = function(req, res) {
-    // reads all records from a vsam file
+    // reads all records from a vsam file
 };
 
 exports.updateRecord = function(req, res) {
@@ -235,7 +236,7 @@ exports.updateRecord = function(req, res) {
 };
 
 exports.deleteRecord = function(req, res) {
-    // delete a record from a vsam file
+    // delete a record from a vsam file
 };
 ```
 

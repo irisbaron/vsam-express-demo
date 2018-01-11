@@ -59,16 +59,16 @@ var record = {
                file.write(record, (err) => {
                    if (err) {
                        console.log(err);
-                        msg = “Error occurred. Didn’t create a record";
+                        msg = "Error occurred. Didn’t create a record";
                    } else {
-                        msg = “create a record:" + record + “in “+ _p;
+                        msg = "create a record:" + record + "in "+ _p;
                    };
                    console.log(msg);
                    expect(file.close()).to.not.throw;
               });
           });
 
-res.json({"message": “Write a record “ + record + “to VSAM file ” +_p}); //this is not right
+res.json({"message": "Write a record " + record + "to VSAM file " +_p}); //this is not right
 
 };
 ```
@@ -92,7 +92,7 @@ var _p = req.params.path;
                   expect(record).to.have.property('key');
                   expect(record).to.have.property('name');
                   expect(record).to.have.property('gender');
-                  console.log("Read “ + record + “from “ +_p);
+                  console.log("Read " + record + "from " +_p);
                };
                expect(file.close()).to.not.throw;
             });
@@ -173,7 +173,7 @@ var _gender = req.params.gender;
               });
           });
 
-res.json({"message": "Update record with key “ + _key + “ in VSAM file " + _p});
+res.json({"message": "Update record with key " + _key + " in VSAM file " + _p});
 };
 ```
 
@@ -189,9 +189,9 @@ var _key = req.params.key;
                 assert.ifError(err);
                 file.find(_key, (record, err) => {
                    if (record == null) {
-                      console.log("Could not find record with key “ +_key);
+                      console.log("Could not find record with key " +_key);
                    } else {
-                      console.log("Record with key “ +_key +” found");
+                      console.log("Record with key " +_key +" found");
                       file.delete( (err) => {
                          assert.ifError(err);
                          file.find(_key, (err) => {
@@ -203,6 +203,6 @@ var _key = req.params.key;
                  }); 
              });
 
-res.json({"message": "Delete a  record with key “+_key+” from VSAM file “+_p});
+res.json({"message": "Delete a  record with key "+_key+" from VSAM file "+_p});
 };
 ```
