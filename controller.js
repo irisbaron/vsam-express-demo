@@ -98,7 +98,7 @@ var msg = "message";
 };
 
 
-function readUntilEnd(file,res) {
+function readUntilEnd(file,res,vsamfile) {
   var end = false;
 var _records=[];
   async.whilst(
@@ -122,7 +122,11 @@ var _records=[];
     (err) => {
       assert.ifError(err);
       expect(file.close()).to.not.throw;
-res.send(tableify(_records)+"\n");
+
+      if (_records.length<1)
+         res.send("No records in vsam "+vsamfile+ "\n" );
+      else
+         res.send("Records for vsam "+vsamfile+ ":\n" + tableify(_records)+"\n");
     }
   );
 }
@@ -135,7 +139,7 @@ var _p = req.params.path;
 	  obj,
           (file,err) => {
             assert.ifError(err);
-            readUntilEnd(file,res);
+            readUntilEnd(file,res,_p);
           });
 };
 
