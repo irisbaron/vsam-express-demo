@@ -62,43 +62,44 @@ Server is listening on port 3000
 
 ### Test the Application
 Use the cURL command from the command-line in a separate shell/terminal, ether locally or remotely. 
-Make sure to replace the dataset name, USER.TEST.VSAM.KSDS2, with a customized one that matches your environment.
+Make sure to replace the dataset name, USER.TEST.VSAM.KSDS, with a customized one that matches your environment.
 In case you run remotely, change specify the hostname instead of localhost.
-The curl command will print out the http response which is just a message string describing the action performed.
+The curl command will print out the http response. 
+In a browser you can use http://localhost:3000/vsam/records/USER.TEST.VSAM.KSDS to see the records in the dataset and followup with the changes as you do the testing exercises below. Of course, the hostname the VSAM name should be modified accordingly. 
 
 Create VSAM file:
 ```bash
-curl -X POST "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
+curl -X POST "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS"
 ```
 
 Create a VSAM record
 ```bash
-curl -X POST "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2&0123&James&MALE"
+curl -X POST "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS&123&James&MALE"
 ```
 
 Read a VSAM record
 ```bash
-curl -X GET "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2"
+curl -X GET "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS"
 ```
 
 Read all VSAM records
 ```bash
-curl -X GET "localhost:3000/vsam/records/USER.TEST.VSAM.KSDS2"
+curl -X GET "http://localhost:3000/vsam/records/USER.TEST.VSAM.KSDS"
 ```
 
 Update a VSAM record
 ```bash
-curl -X PUT "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2&0123&IRIS&FEMALE"
+curl -X PUT "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS&123&IRIS&FEMALE"
 ```
 
 Delete a vsam record
 ```bash
-curl -X DELETE "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS2&0123"
+curl -X DELETE "http://localhost:3000/vsam/record/USER.TEST.VSAM.KSDS&123"
 ```
 
 Delete Vsam file
 ```bash
-curl -X DELETE "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS2"
+curl -X DELETE "http://localhost:3000/vsam/USER.TEST.VSAM.KSDS"
 ```
 
 
@@ -204,6 +205,7 @@ The controller will contain methods for handling all the CRUD operations for our
 In the root directory, create a new file called controller.js with the following contents:
 
 ```javaScript
+const tableify = require('html-tableify');
 const vsam = require("./node_modules/vsam.js/build/Release/vsam.js.node");
 const async = require('async');
 const fs = require('fs');
