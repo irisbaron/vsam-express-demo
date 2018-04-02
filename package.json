@@ -12,6 +12,7 @@
     "async": "^2.6.0",
     "chai": "^4.1.2",
     "express": "^4.16.2",
+    "html-tableify": "0.0.2",
     "vsam.js": "^1.0.2"
   }
 }
