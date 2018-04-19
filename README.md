@@ -42,7 +42,7 @@ This part guides you through the steps to clone the git repository and deploy th
 ### Clone the Repository
 To clone the repository on z/OS run the following: 
 ```bash
-git clone git://github.com/irisbaron/vsam-express-demo
+git clone git://github.com/patilca/vsam-express-demo
 ```
 Alternatively, download the developer journey code as a zip file from [here](https://github.com/irisbaron/vsam-express-demo/archive/master.zip). On z/OS, use 'unzip -a' to unzip.
 
