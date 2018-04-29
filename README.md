@@ -47,7 +47,7 @@ This part guides you through the steps to clone the git repository and deploy th
 ### Clone the Repository
 To clone the repository on z/OS run the following: 
 ```bash
-git clone git://github.com/patilca/vsam-express-demo
+git clone git://github.com/irisbaron/vsam-express-demo
 ```
 Alternatively, download the developer journey code as a [zip file](https://github.com/irisbaron/vsam-express-demo/archive/master.zip).  On z/OS, use `unzip -a` to unzip.
 
@@ -181,29 +181,29 @@ We now create the routes for the VSAM application, that is the URL handling code
 ```javaScript
 module.exports = function(app) {
 
-    var vsam = require('./controller.js');
+    var vsam_controller = require('./controller.js');
 
     // Create a new VSAM file
-    app.post('/vsam/:path', vsam.createFile);
+    app.post('/vsam/:path', vsam_controller.createFile);
 
     // Delete a VSAM file
-    app.delete('/vsam/:path', vsam.deleteFile);
+    app.delete('/vsam/:path', vsam_controller.deleteFile);
 
     // Create a new VSAM record
-    app.post('/vsam/record/:path&:key&:name&:gender', vsam.createRecord);
+    app.post('/vsam/record/:path&:key&:name&:gender', vsam_controller.createRecord);
 
     // Read a single VSAM record
-    app.get('/vsam/record/:path', vsam.readRecord);
-
-    // Read all VSAM records
-    app.get('/vsam/records/:path', vsam.readAllRecords);
+    app.get('/vsam/record/:path', vsam_controller.readRecord);
 
     // Update a VSAM record
-    app.put('/vsam/record/:path&:key&:name&:gender', vsam.updateRecord);
+    app.put('/vsam/record/:path&:key&:name&:gender', vsam_controller.updateRecord);
 
     // Delete a VSAM record
-    app.delete('/vsam/record/:path&:key', vsam.deleteRecord);
+   app.delete('/vsam/record/:path&:key', vsam_controller.deleteRecord);
 
+   // Read all VSAM records
+     app.get('/vsam/records/:path', vsam_controller.readAllRecords);
+     
 }
 ```
 
@@ -229,13 +229,13 @@ The controller will contain methods for handling all the CRUD operations for our
 In the root directory, create a new file called controller.js with the following contents:
 
 ```javaScript
-const tableify = require('html-tableify');
-const vsam = require("./node_modules/vsam.js/build/Release/vsam.js.node");
+const vsam = require('vsam.js');
 const async = require('async');
 const fs = require('fs');
 const expect = require('chai').expect;
 const assert = require('chai').assert;
-const obj = JSON.parse(fs.readFileSync('node_modules/vsam.js/test/test.json'));
+const obj  = JSON.parse(fs.readFileSync('test.json'));
+const tableify = require('html-tableify');
 
 exports.createFile = function(req, res) {
 //create a vsam file
@@ -266,11 +266,11 @@ exports.deleteRecord = function(req, res) {
 };
 ```
 
-In our example we used the `node_modules/vsam.js/test/test.json` file definition, to specify the record object configuration. 
+In our example we used the `test.json` file definition, to specify the record object configuration. 
 We are now ready to add the logic.
 
 ### Add Application Logic
-[controller.md](https://github.com/irisbaron/vsam-express-demo/blob/master/controller.md) contains the implementation snippets of each of the specified controller functions. You can manually copy them one by one, or alternatively clone or download the github code, and copy over the controller.js file.
+Code is available in the `controller.js` file. Clone or download the github code, and copy over the `controller.js` file.
 
 ### Test your Application
 Run the application 
