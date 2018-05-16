@@ -32,7 +32,7 @@ var _p = req.params.path;
               expect(file).not.be.null;
               expect(err).to.be.null;
               expect(file.close()).to.not.throw;
-              res.send("Create a VSAM file "+_p +"\n");
+              res.send("Created a VSAM file "+_p +"\n");
             } catch (err) {
                  console.log("In catch in createFile: err=%s\n",err);
                  res.send("Could not create VSAM file "+_p +"\n");
@@ -57,7 +57,7 @@ var _p = req.params.path;
                  file.dealloc((err) => {
                    assert.ifError(err);
                  });
-                 res.send("Delete VSAM file "+_p+ "\n");
+                 res.send("Deleted VSAM file "+_p+ "\n");
 
 		} catch (err){
                    console.log("In catch in deleteFile: err=%s\n",err);
@@ -208,7 +208,7 @@ var rec;
                             assert.ifError(err);
                             assert.equal(record.name, _name, "name has not been updated");
                             assert.equal(record.gender, _gender, "gender has not been updated");
-                            res.send("Update record with key " + JSON.stringify(_key) + " in VSAM file " + _p+"\n");
+                            res.send("Updated record with key " + JSON.stringify(_key) + " in VSAM file " + _p+"\n");
                             expect(file.close()).to.not.throw;
                             });
 		       }); //update
@@ -245,7 +245,7 @@ var _key = req.params.key;
 			file.find(_key, (err) => {
                            assert.ifError(err);
                            expect(file.close()).to.not.throw;
-                           res.send("Delete a record with key " +JSON.stringify(_key) + " from VSAM file " +_p+"\n");
+                           res.send("Deleted a record with key " +JSON.stringify(_key) + " from VSAM file " +_p+"\n");
 			});
                      });
                   };
