@@ -15,6 +15,7 @@
 
 module.exports = function(app) {
 
+    // Define required modules  
     var vsam_controller = require('./controller.js');
 
     // Create a new VSAM file
