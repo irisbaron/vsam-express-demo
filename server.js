@@ -15,6 +15,7 @@
 
 // define required modules
 var express = require('express');
+var vsam_boot = require('./boot.js');
 
 // create express app
 var app = express();
@@ -30,5 +31,7 @@ require('./routes.js')(app);
 
 // listen for requests
 app.listen(3000, function(){
+
     console.log("Server is listening on port 3000");
+    vsam_boot.boot();
 });
