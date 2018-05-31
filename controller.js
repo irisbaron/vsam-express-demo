@@ -24,21 +24,17 @@ const tableify = require('html-tableify');
 exports.createFile = function(req, res) {
 //create a vsam file
 var _p = req.params.path;
-  vsam( _p,
-          obj,
-          (file, err) => {
-            try {
+  try {
+       var file = vsam.open( _p,obj); 
+       expect(file).not.be.null;
+       expect(file.close()).to.not.throw;
+       res.send("Created a VSAM file "+_p +"\n");
+      }  catch (err) {
+       console.log("In catch in createFile: err=%s\n",err);
+       res.send("Could not open VSAM file "+_p + " due to error: " + err+" \n");
+      }
 
-              expect(file).not.be.null;
-              expect(err).to.be.null;
-              expect(file.close()).to.not.throw;
-              res.send("Created a VSAM file "+_p +"\n");
-            } catch (err) {
-                 console.log("In catch in createFile: err=%s\n",err);
-                 res.send("Could not create VSAM file "+_p +"\n");
-            }
 
-	});
 };
 
 
@@ -46,24 +42,20 @@ exports.deleteFile = function(req, res) {
 // Delete a vsam file
 var _p = req.params.path;
 
-   vsam( _p,
-         obj,
-          (file, err) => {
-              try {
-                 expect(err).to.be.null;
-                 expect(file).to.not.be.null;
-                 expect(file.close()).to.not.throw;
+  try {
+       var file = vsam.open( _p,obj);
+       expect(file).to.not.be.null;
+       expect(file.close()).to.not.throw;
 
-                 file.dealloc((err) => {
-                   assert.ifError(err);
-                 });
-                 res.send("Deleted VSAM file "+_p+ "\n");
+       file.dealloc((err) => {
+          assert.ifError(err);
+       });
+       res.send("Deleted VSAM file "+_p+ "\n");
 
-		} catch (err){
-                   console.log("In catch in deleteFile: err=%s\n",err);
-                   res.send("Could not delete VSAM file "+_p +"\n");
-               }
-         });
+      } catch (err){
+          console.log("In catch in deleteFile: err=%s\n",err);
+          res.send("Could not delete VSAM file "+_p + " due to error: " + err+" \n");
+      }
 };
 
 
@@ -79,21 +71,24 @@ var _record = {
               name: _name,
               gender: _gender
             };
-  vsam( _p,
-          obj,
-          (file, err) => {
-            try {
-	       file.write(_record, (err) => {
+  try {
+       var file = vsam.open( _p,obj);
+       expect(file).to.not.be.null;
 
-                  res.send("Created record: "+ JSON.stringify(_record) +" in "+_p+"\n");
-                  expect(file.close()).to.not.throw;
-
-	      });
-            } catch (err) {
-	       console.log("In catch in createRecord: err=%s\n",err);
-	       res.send("Could not create Record" + JSON.stringify(_record)+  " in "+_p +"\n");
-            }
-      });
+       file.write(_record, (err) => {
+       if (err) {
+           console.log("Error write record:" + err)
+           res.send("Could not create Record" + JSON.stringify(_record)+  " in "+_p + " due to err: "+ err + "\n");
+       }
+       else {
+         res.send("Created record: "+ JSON.stringify(_record) +" in "+_p+"\n");
+       }
+       expect(file.close()).to.not.throw;
+       });
+      } catch (err) {
+          console.log("In catch in createRecord: err=%s\n",err);
+	  res.send("Could not create Record" + JSON.stringify(_record)+  " in "+_p + " due to err: "+ err + "\n");
+      }
 };
 
 
@@ -101,31 +96,30 @@ exports.readRecord = function(req, res) {
 //read a vsam record - the first
 var _p = req.params.path;
 var msg = "message";
-   vsam( _p,
-	 obj,
-          (file,err) => {
-           try {
-	     assert.ifError(err);
 
-	     file.read( (record, err) => {
-		assert.ifError(err);
-		if (record == null){
-                   msg ="No records found in VSAM file " +_p;
-		} else {
-                   expect(record).to.not.be.null;
-                   expect(record).to.have.property('key');
-                   expect(record).to.have.property('name');
-                   expect(record).to.have.property('gender');
-                   msg = "Read record " + JSON.stringify(record) + " from VSAM file " +_p;
-		};
-		expect(file.close()).to.not.throw;
-		res.send(msg+"\n");
-	     });
-           } catch (err) {
-	       console.log("In catch in readRecord: err=%s\n",err);
-	       res.send("Could not read record from " +_p +"\n");
-           }
-          });
+
+  try {
+       var file = vsam.open( _p,obj);
+       expect(file).to.not.be.null;
+       file.read( (record, err) => {
+          if (err) {
+              msg ="Error reading record: " + err   ; 
+          } else if (record == null){
+             msg ="No records found in VSAM file " +_p;
+          } else {
+             expect(record).to.not.be.null;
+             expect(record).to.have.property('key');
+             expect(record).to.have.property('name');
+             expect(record).to.have.property('gender');
+             msg = "Read record " + JSON.stringify(record) + " from VSAM file " +_p;
+          };
+          expect(file.close()).to.not.throw;
+          res.send(msg+"\n");
+        });
+       } catch (err) {
+           console.log("In catch in readRecord: err=%s\n",err);
+	   res.send("Could not read record from " +_p +" due to error "+err+" \n");
+       }
 
 };
 
@@ -163,7 +157,7 @@ var _records=[];
 
        } catch (err) {
 	 console.log("In catch in readUntilEnd: err=%s\n",err);
-	 res.send("Could not read all records from " +_p +"\n");
+	 res.send("Could not read all records from " +_p +" due to error: " + err+ " \n");
        }
      }  
   );
@@ -173,16 +167,15 @@ exports.readAllRecords = function(req, res) {
 //Reads all records from a vsam file
 var _p = req.params.path;
 
-    vsam( _p,
-          obj,
-          (file,err) => {
-            try {
-	      readUntilEnd(file,res,_p);
-            } catch (err) {
-		res.send("No such VSAM file "+_p+"\n");
-		console.log("In catch in readAllRecord: err=%s\n",err);
-            }
-      });
+  try {
+       var file = vsam.open( _p,obj);
+       expect(file).to.not.be.null;
+
+       readUntilEnd(file,res,_p);
+      } catch (err) {
+       res.send("Could not open the VSAM file "+_p+" due to error: " + err+ " \n");
+       console.log("In catch in readAllRecord: err=%s\n",err);
+       }
 };
 
 exports.updateRecord = function(req, res) {
@@ -192,37 +185,37 @@ var _key = req.params.key;
 var _name = req.params.name;
 var _gender = req.params.gender;
 var rec;
-  vsam(_p ,
-	obj,
-          (file, err) => {
-            try {
-	       assert.ifError(err);
-	       file.find(_key, (record, err) => {
-                  assert.ifError(err);
-                  if (record) {
-                     record.name = _name;
-                     record.gender = _gender;
-                     file.update(record, (err) => {
-                         assert.ifError(err);
-                         file.find(_key, (rec, err) => {
-                            assert.ifError(err);
-                            assert.equal(record.name, _name, "name has not been updated");
-                            assert.equal(record.gender, _gender, "gender has not been updated");
-                            res.send("Updated record with key " + JSON.stringify(_key) + " in VSAM file " + _p+"\n");
-                            expect(file.close()).to.not.throw;
-                            });
-		       }); //update
-                   } else {
-                     res.send("Cannot update record with key " + JSON.stringify(_key) + " in VSAM file " + _p+" - key not found\n");
-                     expect(file.close()).to.not.throw;
-                   }
-		});
-	     } catch (err) {
-	       console.log("In catch in updateRecord: err=%s\n",err);
-	       res.send("Could not update record in " +_p +"\n");
+     
+  try {
+       var file = vsam.open( _p,obj);
+       expect(file).to.not.be.null;
 
-	     }  
-      });
+       file.find(_key, (record, err) => {
+          if (record) {
+            record.name = _name;
+            record.gender = _gender;
+            file.update(record, (err) => {
+               assert.ifError(err);
+               file.find(_key, (rec, err) => {
+                  assert.ifError(err);
+                  assert.equal(rec.name, _name, "name has not been updated");
+                  assert.equal(rec.gender, _gender, "gender has not been updated");
+                  res.send("Updated record with key " + JSON.stringify(_key) + " in VSAM file " + _p+"\n");
+                  expect(file.close()).to.not.throw;
+               });
+            }); //update
+          } else {
+             if (err)
+                res.send("Cannot update record with key " + JSON.stringify(_key) + " in VSAM file " + _p+" due to error: "+err+" \n");
+             else
+                res.send("Cannot update record with key " + JSON.stringify(_key) + " in VSAM file " + _p+" - key not found\n");
+             expect(file.close()).to.not.throw;
+          }
+	});
+       } catch (err) {
+	   console.log("In catch in updateRecord: err=%s\n",err);
+	   res.send("Could not update record in " +_p +" due to error "+err+ " \n");
+       }  
 };
 
 exports.deleteRecord = function(req, res) {
@@ -230,32 +223,28 @@ exports.deleteRecord = function(req, res) {
 var _p = req.params.path;
 var _key = req.params.key;
 
-      vsam( _p,
-	obj,
-	(file, err) => {
-            try {
-	       assert.ifError(err);
-	       file.find(_key, (record, err) => {
-                  if (record == null) {
-                     res.send("Could not find a record with key " +JSON.stringify(_key) + " in VSAM file " +_p+"\n");
-                     expect(file.close()).to.not.throw;
-                  } else {
-                     file.delete( (err) => {
-			assert.ifError(err);
-			file.find(_key, (err) => {
-                           assert.ifError(err);
-                           expect(file.close()).to.not.throw;
-                           res.send("Deleted a record with key " +JSON.stringify(_key) + " from VSAM file " +_p+"\n");
-			});
-                     });
-                  };
-	       });
-           } catch (err) {
-	       console.log("In catch in deleteRecord: err=%s\n",err);
-	       res.send("Could not delete record with key " +JSON.stringify(_key) +"from " +_p +"\n");
-
-           }
-	});
+   try {
+        var file = vsam.open( _p,obj);
+	file.find(_key, (record, err) => {
+          if (record == null) {
+             res.send("Could not find a record with key " +JSON.stringify(_key) + " in VSAM file " +_p+"\n");
+             expect(file.close()).to.not.throw;
+           } else {
+             file.delete( (err) => {
+	        assert.ifError(err);
+                file.find(_key, (rec,err) => {
+                   assert.ifError(err);
+                   expect(rec).to.be.null;
+                   expect(file.close()).to.not.throw;
+                   res.send("Deleted a record with key " +JSON.stringify(_key) + " from VSAM file " +_p+"\n");
+	        });
+             });
+           };
+	 });
+        } catch (err) {
+	    console.log("In catch in deleteRecord: err=%s\n",err);
+	    res.send("Could not delete record with key " +JSON.stringify(_key) +"from " +_p +" due to error: " + err+ " \n");
+        }
 };
 
 
