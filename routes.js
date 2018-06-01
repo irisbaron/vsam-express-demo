@@ -18,16 +18,14 @@ module.exports = function(app) {
     // Define required modules  
     var vsam_controller = require('./controller.js');
 
-
-    // Find a  VSAM record
-    app.get('/vsam/record/:path&:key', vsam_controller.findRecord);
+    // Create a new VSAM record
+    app.post('/vsam/:path&:key&:name&:gender', vsam_controller.createRecord);
 
     // Update a VSAM record
-    app.put('/vsam/record/:path&:key&:name&:gender', vsam_controller.updateRecord);
-
+    app.put('/vsam/:path&:key&:name&:gender', vsam_controller.updateRecord);
 
    // Read all VSAM records
-     app.get('/vsam/records/:path', vsam_controller.readAllRecords);
+     app.get('/vsam/:path', vsam_controller.readAllRecords);
 
 
 }

@@ -21,32 +21,39 @@ const assert = require('chai').assert;
 const obj  = JSON.parse(fs.readFileSync('test.json'));
 const tableify = require('html-tableify');
 
-exports.findRecord = function(req, res) {
-//update a record in a vsam file
-var _p = req.params.path;
-var _key = req.params.key;
-var rec;
 
+
+exports.createRecord = function(req, res) {
+//create a vsam record 
+var _p = req.params.path;
+var _record = {
+              key: req.params.key,
+              name: req.params.name,
+              gender: req.params.gender 
+            };
+var file;
   try {
-       var file = vsam.open( _p,obj);
+       if (vsam.exist(_p))
+         file = vsam.openSync( _p,obj);
+       else
+         file = vsam.allocSync(_p,obj); 
        expect(file).to.not.be.null;
 
-       file.find(_key, (record, err) => {
-          if (record) {
-            res.send("Found record with key " + JSON.stringify(_key) + " in VSAM file " + _p+": " +  JSON.stringify(record) +" \n");
+       file.write(_record, (err) => {
+          if (!err) {
+             res.send("Created record: "+ JSON.stringify(_record) +" in "+_p+"\n");
           } else {
-	     if (err)
-		res.send("Cannot find record with key " + JSON.stringify(_key) + " in VSAM file " + _p+" due to error: "+err+" \n");
-	     else
-		res.send("Cannot find record with key " + JSON.stringify(_key) + " in VSAM file " + _p+" - key not found\n");
-          }
-          expect(file.close()).to.not.throw;
-	});
-       } catch (err) {
-           console.log("In catch in updateRecord: error: " +err+" \n");
-           res.send("Could not update record in " +_p +" due to error "+err+ " \n");
+              console.log("Error write record:" + err)
+              res.send("Could not create Record" + JSON.stringify(_record)+  " in "+_p + " due to err: "+ err + ". Possibly the key exists already.\n");
        }
+       expect(file.close()).to.not.throw;
+       });
+      } catch (err) {
+          console.log("In catch in createRecord: err=" + err + " \n");
+	  res.send("Could not create Record" + JSON.stringify(_record)+  " in "+_p + " due to err: "+ err + "\n");
+      }
 };
+
 
 
 exports.updateRecord = function(req, res) {
@@ -56,9 +63,13 @@ var _key = req.params.key;
 var _name = req.params.name;
 var _gender = req.params.gender;
 var rec;
-     
+var file;     
   try {
-       var file = vsam.open( _p,obj);
+
+       if (vsam.exist(_p))
+         file = vsam.openSync( _p,obj);
+       else
+         file = vsam.allocSync(_p,obj);      
        expect(file).to.not.be.null;
 
        file.find(_key, (record, err) => {
@@ -84,7 +95,7 @@ var rec;
           }
 	});
        } catch (err) {
-	   console.log("In catch in updateRecord: err=%s\n",err);
+	   console.log("In catch in updateRecord: err= " + err + " \n");
 	   res.send("Could not update record in " +_p +" due to error "+err+ " \n");
        }  
 };
@@ -94,15 +105,21 @@ var rec;
 exports.readAllRecords = function(req, res) {
 //Reads all records from a vsam file
 var _p = req.params.path;
-
+var file;
   try {
-       var file = vsam.open( _p,obj);
+      	
+       if (vsam.exist(_p))
+         file = vsam.openSync( _p,obj);
+       else
+         file = vsam.allocSync(_p,obj);
+       expect(file).to.not.be.null;
+
        expect(file).to.not.be.null;
 
        readUntilEnd(file,res,_p);
       } catch (err) {
        res.send("Could not open the VSAM file "+_p+" due to error: " + err+ " \n");
-       console.log("In catch in readAllRecord: err=%s\n",err);
+       console.log("In catch in readAllRecord: err= " + err + " \n");
        }
 };
 
@@ -129,7 +146,6 @@ var _records=[];
 
     // Finally close
     (err) => {
-      try {
 	 assert.ifError(err);
 	 expect(file.close()).to.not.throw;
 
@@ -137,11 +153,6 @@ var _records=[];
             res.send("No records in vsam "+vsamfile+ "\n" );
 	 else
             res.send("Records for vsam "+vsamfile+ ":\n" + tableify(_records)+"\n");
-
-       } catch (err) {
-	 console.log("In catch in readUntilEnd: err=%s\n",err);
-	 res.send("Could not read all records from " +_p +" due to error: " + err+ " \n");
-       }
      }  
   );
 }
