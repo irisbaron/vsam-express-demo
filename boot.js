@@ -4,12 +4,12 @@ const expect = require('chai').expect;
 const assert = require('chai').assert;
 const obj  = JSON.parse(fs.readFileSync('test.json'));
 
-var _p="IBARON.TEST.VSAM.KSDS"
+var _p = "IBMUSER.TEST.VSAM.KSDS"
 
 function errWrite(err){
-console.log("Could not populate dataset "+_p + " due to err: "+ err + "\n");
-expect(file.close()).to.not.throw;
-//return;
+   console.log("Could not populate dataset "+_p + " due to err: "+ err + "\n");
+   expect(file.close()).to.not.throw;
+
 }
 
 
@@ -53,7 +53,7 @@ try{
       })
 
 } catch (err) {
-          console.log("In catch in populateVSAM: err=%s\n",err);
+          console.log("In catch in populateVSAM: err= " + err + " \n");
           return;
       }
 
@@ -61,8 +61,8 @@ try{
 }
 
 exports.initialize  = function() {
-var vsamExists= vsam.exist(_p);
-if (vsamExists){
+   var vsamExists= vsam.exist(_p);
+   if (vsamExists){
        var file = vsam.openSync( _p,obj);
        expect(file).to.not.be.null;
        expect(file.close()).to.not.throw;
@@ -72,9 +72,9 @@ if (vsamExists){
           assert.ifError(err);
           populateVSAM();
        });
-} else{
+   } else{
 
-console.log("in alloc");
-populateVSAM();
-}
+      console.log("in alloc");
+      populateVSAM();
+   }
 }
