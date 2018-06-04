@@ -13,15 +13,15 @@
 */
 'use strict'
 
-// define required modules
+// Define required modules
 var express = require('express');
 var vsam_boot = require('./boot.js');
 
-// create express app
+// Create express app
 var app = express();
 console.log("Server is up for VSAM application");
 
-// define a simple route
+// Define a simple route
 app.get('/', function(req, res){
     res.json({"message": "Welcome to vsam application."});
 });
@@ -29,9 +29,11 @@ app.get('/', function(req, res){
 // Require VSAM routes
 require('./routes.js')(app);
 
-// listen for requests
+// Listen for requests
 app.listen(3000, function(){
 
     console.log("Server is listening on port 3000");
+
+    // Initialize the VSAM dataset 
     vsam_boot.initialize();
 });

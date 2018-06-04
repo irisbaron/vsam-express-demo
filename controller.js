@@ -24,7 +24,7 @@ const tableify = require('html-tableify');
 
 
 exports.createRecord = function(req, res) {
-//create a vsam record 
+// Create a vsam record 
 var _p = req.params.path;
 var _record = {
               key: req.params.key,
@@ -33,19 +33,23 @@ var _record = {
             };
 var file;
   try {
+       // Open the vsam dataset
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
          file = vsam.allocSync(_p,obj); 
+       
        expect(file).to.not.be.null;
 
+       // Write the record
        file.write(_record, (err) => {
+          // Callback code here
           if (!err) {
              res.send("Created record: "+ JSON.stringify(_record) +" in "+_p+"\n");
           } else {
               console.log("Error write record:" + err)
               res.send("Could not create Record" + JSON.stringify(_record)+  " in "+_p + " due to err: "+ err + ". Possibly the key exists already.\n");
-       }
+          }
        expect(file.close()).to.not.throw;
        });
       } catch (err) {
@@ -57,7 +61,7 @@ var file;
 
 
 exports.updateRecord = function(req, res) {
-//update a record in a vsam file
+// Update a record in a vsam file
 var _p = req.params.path;
 var _key = req.params.key;
 var _name = req.params.name;
@@ -70,14 +74,20 @@ var file;
          file = vsam.openSync( _p,obj);
        else
          file = vsam.allocSync(_p,obj);      
+
        expect(file).to.not.be.null;
 
+       // Find the record
        file.find(_key, (record, err) => {
           if (record) {
             record.name = _name;
             record.gender = _gender;
+     
+            // Update the record
             file.update(record, (err) => {
                assert.ifError(err);
+
+               // Confirm record was updated
                file.find(_key, (rec, err) => {
                   assert.ifError(err);
                   assert.equal(rec.name, _name, "name has not been updated");
@@ -85,8 +95,9 @@ var file;
                   res.send("Updated record with key " + JSON.stringify(_key) + " in VSAM file " + _p+"\n");
                   expect(file.close()).to.not.throw;
                });
-            }); //update
+            }); 
           } else {
+             // Record was not found
              if (err)
                 res.send("Cannot update record with key " + JSON.stringify(_key) + " in VSAM file " + _p+" due to error: "+err+" \n");
              else
@@ -112,14 +123,14 @@ var file;
          file = vsam.openSync( _p,obj);
        else
          file = vsam.allocSync(_p,obj);
-       expect(file).to.not.be.null;
 
        expect(file).to.not.be.null;
 
        readUntilEnd(file,res,_p);
+ 
       } catch (err) {
-       res.send("Could not open the VSAM file "+_p+" due to error: " + err+ " \n");
-       console.log("In catch in readAllRecord: err= " + err + " \n");
+          res.send("Could not open the VSAM file "+_p+" due to error: " + err+ " \n");
+          console.log("In catch in readAllRecord: err= " + err + " \n");
        }
 };
 
