@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const assert = require('chai').assert;
 const obj  = JSON.parse(fs.readFileSync('test.json'));
 
-var _p="IBMUSER.TEST.VSAM.KSDS"
+var _p = "IBMUSER.TEST.VSAM.KSDS"
 
 exports.initialize  = function() {
 
@@ -73,4 +73,5 @@ console.log("Could not populate dataset "+_p + " due to err: "+ err + "\n");
 expect(file.close()).to.not.throw;
 //return;
 }
+
 
