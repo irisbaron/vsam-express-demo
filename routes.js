@@ -18,6 +18,8 @@ module.exports = function(app) {
     // Define required modules  
     var vsam_controller = require('./controller.js');
 
+    // Routes come here
+
     // Create a new VSAM record
     app.post('/vsam/:path&:key&:name&:gender', vsam_controller.createRecord);
 
@@ -25,7 +27,7 @@ module.exports = function(app) {
     app.put('/vsam/:path&:key&:name&:gender', vsam_controller.updateRecord);
 
    // Read all VSAM records
-     app.get('/vsam/:path', vsam_controller.readAllRecords);
+   app.get('/vsam/:path', vsam_controller.readAllRecords);
 
 
 }
