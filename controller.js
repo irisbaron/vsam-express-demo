@@ -24,7 +24,7 @@ const tableify = require('html-tableify');
 
 
 exports.createRecord = function(req, res) {
-// Create a vsam record 
+// Create a VSAM record 
 var _p = req.params.path;
 var _record = {
               key: req.params.key,
@@ -62,7 +62,7 @@ var file;
 
 
 exports.updateRecord = function(req, res) {
-// Update a record in a vsam file
+// Update a VSAM record
 var _p = req.params.path;
 var _key = req.params.key;
 var _name = req.params.name;
@@ -71,7 +71,7 @@ var rec;
 var file;     
   try {
 	  
-       // Allocate the vsam dataset if doesn't exist and open it
+       // Allocate the VSAM dataset if doesn't exist and open it
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
@@ -116,12 +116,12 @@ var file;
 
 
 exports.readAllRecords = function(req, res) {
-//Reads all records from a vsam file
+// Reads all VSAM records
 var _p = req.params.path;
 var file;
   try {
       
-       // Allocate the vsam dataset if doesn't exist and open it
+       // Allocate the VSAM dataset if doesn't exist and open it
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
