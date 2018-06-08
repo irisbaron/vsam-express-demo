@@ -8,7 +8,7 @@ var _p = "IBMUSER.TEST.VSAM.KSDS"
 exports.initialize  = function() {
 
    if (vsam.exist(_p)){
-       var file = vsam.openSync( _p,obj);
+       var file = vsam.openSync( _p, obj);
        file.close();
 
        file.dealloc((err) => {
@@ -35,10 +35,10 @@ function populateVSAM(){
       var file = vsam.allocSync( _p,obj);
       async.eachSeries(records, function(record, callback) {
         file.write(record, callback);
-        console.log("Created record: "+ JSON.stringify(record) +" in "+_p);
+        console.log("Created record: " + JSON.stringify(record) + " in " + _p);
       }, function(err) {
         if (err)
-          console.log("Could not populate dataset "+_p + " due to err: "+ err + "\n");
+          console.log("Could not populate dataset " + _p + " due to err: " + err + "\n");
       });
 
     } catch (err) {
