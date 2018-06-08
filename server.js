@@ -17,9 +17,8 @@
 var express = require('express');
 var vsam_boot = require('./boot.js');
 
-// Create express app
+// Start Express app
 var app = express();
-console.log("Server is up for VSAM application");
 
 // Define a simple route
 app.get('/', function(req, res){
@@ -30,9 +29,9 @@ app.get('/', function(req, res){
 require('./routes.js')(app);
 
 // Listen for requests
-app.listen(3000, function(){
+app.listen(9000, function(){
 
-    console.log("Server is listening on port 3000");
+    console.log("Server is up and listening on port 9000");
 
     // Initialize the VSAM dataset 
     vsam_boot.initialize();
