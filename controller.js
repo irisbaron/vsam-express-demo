@@ -33,7 +33,8 @@ var _record = {
             };
 var file;
   try {
-       // Open the vsam dataset
+	  
+       // Allocate the vsam dataset if doesn't exist and open it
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
@@ -69,7 +70,8 @@ var _gender = req.params.gender;
 var rec;
 var file;     
   try {
-
+	  
+       // Allocate the vsam dataset if doesn't exist and open it
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
@@ -118,7 +120,8 @@ exports.readAllRecords = function(req, res) {
 var _p = req.params.path;
 var file;
   try {
-      	
+      
+       // Allocate the vsam dataset if doesn't exist and open it
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
