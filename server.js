@@ -14,8 +14,8 @@
 'use strict'
 
 // Define required modules
-var express = require('express');
 var vsam_boot = require('./boot.js');
+var express = require('express');
 
 // Start Express app
 var app = express();
