@@ -27,9 +27,9 @@ exports.createRecord = function(req, res) {
 // Create a VSAM record 
 var _p = req.params.path;
 var _record = {
-              key: req.params.key,
-              name: req.params.name,
-              gender: req.params.gender 
+              key: req.query.key,
+              name: req.query.name,
+              gender: req.query.gender 
             };
 var file;
   try {
@@ -64,9 +64,9 @@ var file;
 exports.updateRecord = function(req, res) {
 // Update a VSAM record
 var _p = req.params.path;
-var _key = req.params.key;
-var _name = req.params.name;
-var _gender = req.params.gender;
+var _key = req.query.key;
+var _name = req.query.name;
+var _gender = req.query.gender;
 var rec;
 var file;     
   try {
