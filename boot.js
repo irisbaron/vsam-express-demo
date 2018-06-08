@@ -39,6 +39,7 @@ function populateVSAM(){
       }, function(err) {
         if (err)
           console.log("Could not populate dataset " + _p + " due to err: " + err + "\n");
+        file.close();
       });
 
     } catch (err) {
