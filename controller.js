@@ -34,7 +34,7 @@ var _record = {
 var file;
   try {
 	  
-       // Allocate the vsam dataset if doesn't exist and open it
+       // Allocate the VSAM dataset if doesn't exist and open it
        if (vsam.exist(_p))
          file = vsam.openSync( _p,obj);
        else
@@ -164,9 +164,9 @@ var _records=[];
 	 expect(file.close()).to.not.throw;
 
 	 if (_records.length<1)
-            res.send("No records in vsam " + vsamfile + "\n" );
+            res.send("No records in VSAM " + vsamfile + "\n" );
 	 else
-            res.send("Records for vsam " + vsamfile + ":\n" + tableify(_records) + "\n");
+            res.send("Records for VSAM " + vsamfile + ":\n" + tableify(_records) + "\n");
      }  
   );
 }
